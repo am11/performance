@@ -1,4 +1,4 @@
-﻿using Microsoft.Diagnostics.Tracing;
+﻿s_using Microsoft.Diagnostics.Tracing;
 using System;
 using System.Collections.Generic;
 
@@ -74,6 +74,6 @@ public class LinuxTraceSession : ITraceSession
         // Enable all EventSource events on Linux
         perfCollect.AddClrKeyword(PerfCollect.ClrKeyword.EventSource);
         // Filter events from the provider
-        environmentVariableSetter?.Invoke("COMPlus_EventSourceFilter", provider);
+        environmentVariableSetter?.Invoke("DOTNET_EventSourceFilter", provider);
     }
 }

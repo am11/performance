@@ -170,28 +170,28 @@ class CompilationAction(Action):
     @tracer.start_as_current_span("compilationaction_set_mode") # type: ignore
     def __set_mode(mode: str) -> None:
         # Remove potentially set environments.
-        COMPLUS_ENVIRONMENTS = [
-            'COMPlus_JITMinOpts',
-            'COMPlus_ReadyToRun',
-            'COMPlus_TieredCompilation',
-            'COMPlus_ZapDisable',
+        DOTNET_ENVIRONMENTS = [
+            'DOTNET_JITMinOpts',
+            'DOTNET_ReadyToRun',
+            'DOTNET_TieredCompilation',
+            'DOTNET_ZapDisable',
         ]
-        for complus_environment in COMPLUS_ENVIRONMENTS:
-            if complus_environment in environ:
-                environ.pop(complus_environment)
+        for DOTNET_environment in DOTNET_ENVIRONMENTS:
+            if DOTNET_environment in environ:
+                environ.pop(DOTNET_environment)
 
         # Configure .NET Runtime
         if mode == CompilationAction.TIERED:
-            environ['COMPlus_TieredCompilation'] = '1'
+            environ['DOTNET_TieredCompilation'] = '1'
         elif mode == CompilationAction.NO_TIERING:
-            environ['COMPlus_TieredCompilation'] = '0'
+            environ['DOTNET_TieredCompilation'] = '0'
         elif mode == CompilationAction.FULLY_JITTED_NO_TIERING:
-            environ['COMPlus_ReadyToRun'] = '0'
-            environ['COMPlus_TieredCompilation'] = '0'
-            environ['COMPlus_ZapDisable'] = '1'
+            environ['DOTNET_ReadyToRun'] = '0'
+            environ['DOTNET_TieredCompilation'] = '0'
+            environ['DOTNET_ZapDisable'] = '1'
         elif mode == CompilationAction.MIN_OPT:
-            environ['COMPlus_JITMinOpts'] = '1'
-            environ['COMPlus_TieredCompilation'] = '0'
+            environ['DOTNET_JITMinOpts'] = '1'
+            environ['DOTNET_TieredCompilation'] = '0'
         elif mode != CompilationAction.DEFAULT:
             raise ArgumentTypeError('Unknown mode: {}'.format(mode))
 
@@ -490,14 +490,14 @@ class CSharpProject:
             return ['--output', outdir]
 
     @staticmethod
-    def __print_complus_environment() -> None:
+    def __print_DOTNET_environment() -> None:
         getLogger().info('-' * 50)
         getLogger().info('Dumping COMPlus/DOTNET environment:')
-        COMPLUS_PREFIX = 'COMPlus'
+        DOTNET_PREFIX = 'COMPlus'
         DOTNET_PREFIX = 'DOTNET'
         implementationDetails = [ 'DOTNET_CLI_TELEMETRY_OPTOUT', 'DOTNET_MULTILEVEL_LOOKUP', 'DOTNET_ROOT' ]
         for env in environ:
-            if env[:len(COMPLUS_PREFIX)].lower() == COMPLUS_PREFIX.lower() or env[:len(DOTNET_PREFIX)].lower() == DOTNET_PREFIX.lower():
+            if env[:len(DOTNET_PREFIX)].lower() == DOTNET_PREFIX.lower() or env[:len(DOTNET_PREFIX)].lower() == DOTNET_PREFIX.lower():
                 if not (env.upper() in implementationDetails):
                     getLogger().info('  "%s=%s"', env, environ[env])
         getLogger().info('-' * 50)
@@ -512,7 +512,7 @@ class CSharpProject:
         '''
         Calls dotnet to run a .NET project output.
         '''
-        CSharpProject.__print_complus_environment()
+        CSharpProject.__print_DOTNET_environment()
         cmdline = [
             'dotnet', 'run',
             '--project', self.csproj_file,

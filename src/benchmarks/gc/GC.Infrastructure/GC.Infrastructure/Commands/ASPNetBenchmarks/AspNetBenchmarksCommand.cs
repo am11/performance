@@ -407,9 +407,7 @@ namespace GC.Infrastructure.Commands.ASPNetBenchmarks
 
             // 2. GCLog: BenchmarkName_GCLog/<LogName>.log
             if (configuration.Environment!.environment_variables!.ContainsKey("DOTNET_GCLog") ||
-                configuration.Environment!.environment_variables!.ContainsKey("COMPlus_GCLog") ||
-                configuration.Runs!.Any(r => r.Value.environment_variables?.ContainsKey("DOTNET_GCLog") ?? false) ||
-                configuration.Runs!.Any(r => r.Value.environment_variables?.ContainsKey("COMPlus_GCLog") ?? false))
+                configuration.Runs!.Any(r => r.Value.environment_variables?.ContainsKey("DOTNET_GCLog") ?? false))
             {
                 string basePathForGCLog = Path.Combine(configuration.Output.Path, runName, $"{benchmarkName}_GCLog");
 

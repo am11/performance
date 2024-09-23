@@ -658,8 +658,8 @@ To collect a trace, you need to open two terminals:
 **[App]**: Setup the application shell - this enables tracing configuration inside of .NET Core:
 
 ```cmd
-export COMPlus_PerfMapEnabled=1
-export COMPlus_EnableEventLog=1
+export DOTNET_PerfMapEnabled=1
+export DOTNET_EnableEventLog=1
 ```
 
 **[Trace]** Start collection:

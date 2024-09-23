@@ -292,7 +292,7 @@ ex: C:\repos\performance;C:\repos\runtime
         if self.testtype == const.STARTUP:
             startup = StartupWrapper()
             self.traits.add_traits(overwrite=False,
-                                   environmentvariables='COMPlus_EnableEventLog=1' if not iswin() else '',
+                                   environmentvariables='DOTNET_EnableEventLog=1' if not iswin() else '',
                                    scenarioname=self.scenarioname,
                                    scenariotypename=const.SCENARIO_NAMES[const.STARTUP],
                                    apptorun=publishedexe(self.traits.exename),
@@ -400,7 +400,7 @@ ex: C:\repos\performance;C:\repos\runtime
             self.traits.add_traits(overwrite=False,
                                    scenarioname=scenarioname,
                                    apptorun=os.path.join(self.crossgen_arguments.coreroot, 'corerun%s' % extension()),
-                                   environmentvariables='COMPlus_EnableEventLog=1' if not iswin() else '' # turn on clr user events
+                                   environmentvariables='DOTNET_EnableEventLog=1' if not iswin() else '' # turn on clr user events
                                   ) 
             startup.runtests(self.traits)
 
